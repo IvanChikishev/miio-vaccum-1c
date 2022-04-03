@@ -2,12 +2,13 @@
 
 import logging
 from enum import Enum
-
 from miio.click_common import command, format_output
 from miio.miot_device import DeviceStatus as DeviceStatusContainer
 from miio.miot_device import MiotDevice, MiotMapping
 
+SUPPORTED_MODELS = ["dreame.vacuum.mb1808"]
 _LOGGER = logging.getLogger(__name__)
+
 
 _MAPPING: MiotMapping = {
     "battery_level": {"siid": 2, "piid": 1},
@@ -30,7 +31,7 @@ _MAPPING: MiotMapping = {
     "start_time": {"siid": 20, "piid": 2},
     "stop_time": {"siid": 20, "piid": 3},
     "deg": {"siid": 21, "piid": 1, "access": ["write"]},
-    "speed": {"siid": 21, "piid": 2, "access": ["write"]},
+    "clean_mode": {"siid": 18, "piid": 6},
     "map_view": {"siid": 23, "piid": 1},
     "frame_info": {"siid": 23, "piid": 2},
     "volume": {"siid": 24, "piid": 1},
@@ -195,6 +196,8 @@ class DreameVacuumMiot(MiotDevice):
     """Interface for Vacuum 1C STYTJ01ZHM (dreame.vacuum.mc1808)"""
 
     mapping = _MAPPING
+
+    _supported_models = SUPPORTED_MODELS
 
     @command(
         default_output=format_output(
